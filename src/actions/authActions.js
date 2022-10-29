@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SERVER_URL } from '../App';
 import {
 	USER_LOADED,
 	USER_LOADING,
@@ -21,7 +22,7 @@ export const loadUser = () => (dispatch, getState) => {
 	dispatch({ type: USER_LOADING });
 
 	axios
-		.get('/api/auth/user', tokenConfig(getState)) // tokenConfig is a function declared at the end of the file
+		.get(SERVER_URL + '/api/auth/user', tokenConfig(getState)) // tokenConfig is a function declared at the end of the file
 		.then((res) =>
 			dispatch({
 				type: USER_LOADED,
@@ -43,36 +44,42 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 // Login User
-export const login = ({ email, password }) => (dispatch) => {
-	// Headers
-	const config = {
-		headers: {
-			'Content-Type': 'application/json',
-		},
+export const login =
+	({ email, password }) =>
+	(dispatch) => {
+		// Headers
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		//Request body
+		const body = JSON.stringify({ email, password });
+
+		axios
+			.post(SERVER_URL + '/api/auth', body, config)
+			.then((res) => {
+				notify(`Logged in as ${res.data.user.name}`, 'info', dispatch);
+				dispatch({
+					type: LOGIN_SUCCESS,
+					payload: res.data,
+				});
+			})
+			.catch((err) => {
+				notify(
+					`Something went wrong! (${err.response.data})`,
+					'error',
+					dispatch
+				);
+				dispatch(
+					returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
+				);
+				dispatch({
+					type: LOGIN_FAIL,
+				});
+			});
 	};
-
-	//Request body
-	const body = JSON.stringify({ email, password });
-
-	axios
-		.post('/api/auth', body, config)
-		.then((res) => {
-			notify(`Logged in as ${res.data.user.name}`, 'info', dispatch);
-			dispatch({
-				type: LOGIN_SUCCESS,
-				payload: res.data,
-			});
-		})
-		.catch((err) => {
-			notify(`Something went wrong! (${err.response.data})`, 'error', dispatch);
-			dispatch(
-				returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
-			);
-			dispatch({
-				type: LOGIN_FAIL,
-			});
-		});
-};
 
 // Logout User
 export const logout = () => (dispatch) => {

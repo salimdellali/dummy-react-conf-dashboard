@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SERVER_URL } from '../App';
 import {
 	GET_ATTENDEES,
 	ADD_ATTENDEE,
@@ -15,7 +16,7 @@ import { notify } from './helperFunctions';
 export const getAttendees = () => (dispatch) => {
 	dispatch(setAttendeesLoading());
 	axios
-		.get('/api/attendees')
+		.get(SERVER_URL + '/api/attendees')
 		.then((res) => {
 			dispatch({
 				type: GET_ATTENDEES,
@@ -30,7 +31,7 @@ export const getAttendees = () => (dispatch) => {
 
 export const addAttendee = (newAttendee) => (dispatch) => {
 	axios
-		.post('/api/attendees', newAttendee)
+		.post(SERVER_URL + '/api/attendees', newAttendee)
 		.then((res) => {
 			dispatch({
 				type: ADD_ATTENDEE,
@@ -50,7 +51,7 @@ export const addAttendee = (newAttendee) => (dispatch) => {
 
 export const updateAttendee = (updatedAttendee) => (dispatch, getState) => {
 	axios
-		.put('/api/attendees', updatedAttendee, tokenConfig(getState))
+		.put(SERVER_URL + '/api/attendees', updatedAttendee, tokenConfig(getState))
 		.then((res) => {
 			notify(
 				`Attendee ${res.data.fullName} Updated Successfully`,
@@ -70,7 +71,7 @@ export const updateAttendee = (updatedAttendee) => (dispatch, getState) => {
 
 export const deleteAttendee = (id) => (dispatch, getState) => {
 	axios
-		.delete(`api/attendees/${id}`, tokenConfig(getState))
+		.delete(SERVER_URL + `api/attendees/${id}`, tokenConfig(getState))
 		.then((res) => {
 			notify(
 				`Attendee ${res.data.fullName} Deleted Successfully`,
