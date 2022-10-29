@@ -6,6 +6,8 @@
 - [Dummy React Conf Server](https://github.com/salimdellali/dummy-react-conf-server)
 
 ---
+#### Netlify build:
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0b8f2a1e-72e2-4f44-8ac6-a816e4c97095/deploy-status)](https://app.netlify.com/sites/dummy-react-conf-dashboard/deploys)
 
 #### Built with :
 
@@ -24,10 +26,11 @@
 ### Repo structure :
 
 - `src/` folder: the Dummy React Dashboard, created using create-react-app
-- `uml_diagrams/` folder : UML Diagrams for better project description.
+- `uml_diagrams/` folder : UML Diagrams for better project description
 
 ### Usage :
 
+- Dummy React Conf Dashboard is used by the Dummy React Conference organizers
 - The **Dashboard** is made using the Create-React-App boilerplate, features include :
   - Authentification & Access Control:
     - 2 main users :
