@@ -45,7 +45,7 @@
 
 ---
 
-### Main technologies used so far :
+### Main technologies:
 
 - React.js
 - React Router
